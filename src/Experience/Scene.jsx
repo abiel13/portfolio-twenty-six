@@ -10,7 +10,7 @@ const Scene = ({ camera, pointerRef }) => {
   useFrame(() => {
     if (!groupRef.current) return
 
-    const targetRotation = pointerRef.current.x * Math.PI / 0.025
+    const targetRotation = pointerRef.current.x * Math.PI * 0.025
 
     // ✅ Don't redeclare — just update the existing ref value
     groupRotationRef.current = THREE.MathUtils.lerp(
