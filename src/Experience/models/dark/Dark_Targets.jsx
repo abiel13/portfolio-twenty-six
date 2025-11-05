@@ -12,8 +12,8 @@ import { useSidepanelStore } from "../../../stores/sidepanel.store";
 
 export default function Model(props) {
   const { nodes, materials } = useGLTF("/models/Dark Room/Dark_Targets.glb");
-  const whiteMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, metalness: 0.5, roughness: 0.5 });
-  const setVisible = useSidepanelStore((state) => state.setVisible);
+  const whiteMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff});
+  const open = useSidepanelStore((state) => state.open);
   const aboutAnimRef = React.useRef();
   const devWorkAnimRef = React.useRef();
 
@@ -38,9 +38,10 @@ export default function Model(props) {
   }
 
   const handleClick = () => {
-    setVisible();
+    console.log('hit this function ')
+    open();
   }
-
+  
 
   return (
     <group {...props} dispose={null}>
@@ -50,16 +51,15 @@ export default function Model(props) {
         visible={false}
         onPointerOver={handleMouse('about', true)}
         onPointerOut={handleMouse('about', false)}
-        onClick={handleClick()}
         position={[0.679, 1.571, -1.368]}
-
-      />
+        onClick={() => handleClick()}
+        
+        />
       <mesh
         geometry={nodes.About_Hitbox_Anim.geometry}
         material={whiteMaterial}
         scale={0}
         position={[0.679, 1.571, -1.368]}
-
         ref={aboutAnimRef}
       />
       <mesh
@@ -67,7 +67,7 @@ export default function Model(props) {
         material={nodes.Dev_Work_Hitbox.material}
         visible={false}
         position={[-0.457, 0.597, 1.021]}
-        onClick={handleClick()}
+        onClick={()=> handleClick()}
         onPointerOver={handleMouse('dev_work', true)}
         onPointerOut={handleMouse('dev_work', false)}
       />

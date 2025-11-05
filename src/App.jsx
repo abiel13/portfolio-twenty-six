@@ -1,16 +1,16 @@
-import Experience from "./Experience/Experience"
-import AnimatedPanel from "./features/sidepanel/sidepanel"
+import Experience from "./Experience/Experience"; 
+import SidePanel from "./features/sidepanel/sidepanel";
 
-
-function App() {
-
-
+export default function App() {
   return (
-    <>
-      <AnimatedPanel />
+    <div className="relative w-full h-screen overflow-hidden">
+      {/* 3D Canvas */}
       <Experience />
-    </>
-  )
-}
 
-export default App
+      {/* Only the panel occupies its actual width/height */}
+      <div className="absolute z-150 top-0 right-0 bottom-0 pointer-events-none flex justify-end items-end">
+        <SidePanel />
+      </div>
+    </div>
+  );
+}

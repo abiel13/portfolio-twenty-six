@@ -1,63 +1,70 @@
-import React, { useEffect, useRef } from "react";
-import { gsap } from "gsap";
+import React, { useRef, useEffect } from "react";
+import gsap from "gsap";
 import { useSidepanelStore } from "../../stores/sidepanel.store";
 
-const AnimatedPanel = () => {
-  const panelRef = useRef();
-  const isVisible = useSidepanelStore((state) => state.visible);
-  const setVisible = useSidepanelStore((state) => state.setVisible)
-
+const SidePanel = () => {
+  const panelRef = useRef(null);
+  const { visible } = useSidepanelStore();
+console.log(visible);
   useEffect(() => {
-    if (isVisible) {
-      // Animate in
-      gsap.to(panelRef.current, {
-        y: 0,
+    const el = panelRef.current;
+    if (!el) return;
+    const isMobile = window.innerWidth < 768;
+
+    gsap.from(el, {
+        opacity:0
+    })
+
+
+    if (visible) {
+      gsap.to(el, {
         x: 0,
-        opacity: 1,
+        y: 0,
+        opacity:1,
         duration: 0.5,
         ease: "power3.out",
-        pointerEvents: "auto",
       });
     } else {
-      // Animate out (different behavior for desktop and mobile)
-      const isMobile = window.innerWidth < 768;
-      gsap.to(panelRef.current, {
-        y: isMobile ? "100%" : 0,
+      gsap.to(el, {
         x: isMobile ? 0 : "100%",
-        opacity: 0,
-        duration: 0.4,
-        ease: "power2.inOut",
-        pointerEvents: "none",
+        y: isMobile ? "100%" : 0,
+        duration: 0.5,
+        ease: "power3.inOut",
+        // opacity:0
       });
     }
-  }, [isVisible]);
+  }, [visible]);
+
+  useEffect(() => {
+    const el = panelRef.current;
+    if (!el) return;
+    const isMobile = window.innerWidth < 768;
+    gsap.set(el, {
+      x: isMobile ? 0 : "100%",
+      y: isMobile ? "100%" : 0,
+    });
+  }, []);
 
   return (
     <div
       ref={panelRef}
-      className={`
-        fixed z-50 bg-white dark:bg-neutral-900 shadow-2xl 
-        w-full md:w-80 h-[60vh] md:h-full 
-        bottom-0 md:top-0 md:right-0 
-        rounded-t-2xl md:rounded-none 
-        opacity-0 translate-y-full md:translate-y-0 md:translate-x-full 
-        p-5 flex flex-col transition-all
-      `}
+      className="
+        pointer-events-auto
+        bg-white text-gray-900 shadow-lg overflow-y-auto
+        md:w-[30vw]! md:h-screen
+        w-full h-[50%]
+      "
     >
-      {/* Close Button */}
-      <button
-        onClick={() => setVisible()}
-        className="self-end mb-4 text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
-      >
-        ✕
-      </button>
-
-      {/* Content */}
-      <div className="flex-1 overflow-y-auto">
-
+      <div className="p-6">
+        <h2 className="text-xl font-semibold mb-3">Panel Content</h2>
+        <p className="text-gray-600">
+          Panel slides from right on desktop, bottom on mobile.
+        </p>
+        
       </div>
     </div>
   );
 };
 
-export default AnimatedPanel;
+
+export default SidePanel
