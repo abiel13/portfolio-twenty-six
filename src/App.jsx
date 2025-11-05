@@ -1,4 +1,5 @@
 import Experience from "./Experience/Experience"
+import AnimatedPanel from "./features/sidepanel/sidepanel"
 
 
 function App() {
@@ -6,7 +7,8 @@ function App() {
 
   return (
     <>
-<Experience/>
+      <AnimatedPanel />
+      <Experience />
     </>
   )
 }

@@ -28,20 +28,14 @@ const Experience = () => {
   return (
     <>
       <Canvas>
-        <OrthographicCamera ref={cameraRef} makeDefault rotation={[
-          -0.5006427955800709
-          ,
-          -0.9084753454172618
-          ,
-          -0.40732498401852546]}
-          position={[
-
-            -6.481619690173266,
-            3.657348937829595,
-            4.470140881533256
+        <OrthographicCamera ref={cameraRef} makeDefault position={[
+         -4.655719618827377,  4.89702741439811,6.157748878215362
+        ]}
+          rotation={[
+ -0.6752273112197668,  -0.6754330729282368,  -0.4641972171080932,
           ]}
-          zoom={100} />
-    
+          zoom={120} />
+      {/* <OrbitControls enableZoom={true} enablePan={true} enableRotate={false} /> */}
         <Scene pointerRef={pointerRef} camera={cameraRef} />
       </Canvas>  </>
   )
