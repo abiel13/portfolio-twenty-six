@@ -1,4 +1,5 @@
 import Experience from "./Experience/Experience"; 
+import RoomToggleButton from "./features/navbuttons/RoomToggleButton";
 import SidePanel from "./features/sidepanel/sidepanel";
 
 export default function App() {
@@ -11,6 +12,8 @@ export default function App() {
       <div className="absolute z-150 top-0 right-0 bottom-0 pointer-events-none flex justify-end items-end">
         <SidePanel />
       </div>
+
+      <RoomToggleButton />
     </div>
   );
 }

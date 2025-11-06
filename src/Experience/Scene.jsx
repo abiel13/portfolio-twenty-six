@@ -20,6 +20,10 @@ const Scene = ({ camera, pointerRef }) => {
   const groupRotationRef = useRef(0)
 
   useFrame(() => {
+    // console.log(camera.current.position)
+    // console.log(camera.current.rotation)
+    // console.log(camera.current.zoom)
+
 
     if (!groupRef.current) return
     const targetRotation = pointerRef.current.x * Math.PI * 0.2
@@ -45,7 +49,7 @@ const Scene = ({ camera, pointerRef }) => {
       </group>
 
       <group>
-        <GridPlanes planeDepth={5} planeWidth={5} rows={10} cols={10} spacing={0.01} />
+        <GridPlanes planeDepth={2} planeWidth={2} rows={20} cols={20} spacing={0.01} />
       </group>
 
       <group >
