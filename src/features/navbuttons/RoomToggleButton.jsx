@@ -18,9 +18,12 @@ const RoomToggleButton = () => {
 
 
     return (
-        <button onClick={toggleButton} className='absolute w-fit! h-fit! z-50 bg-white top-5 left-5'>
+        <div className=" absolute w-[150px]! h-[150px]! bg-[#fff2]  rounded-md z-50 px- top-5 left-5  grid ">
+        <button onClick={toggleButton} className=' w-fit! h-fit! '>
             click to toggle
         </button>
+      
+        </div>
     )
 }
 
