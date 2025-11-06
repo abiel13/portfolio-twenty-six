@@ -5,6 +5,7 @@ import { Canvas } from '@react-three/fiber'
 import * as THREE from 'three'
 import gsap from 'gsap'
 import { useRoomStore } from '../stores/toggleRoomStore'
+import { useMediaQuery } from '../stores/useMediaQuery'
 
 
 const Experience = () => {
@@ -13,6 +14,7 @@ const Experience = () => {
   const isDarkRoom = useRoomStore((state) => state.isDarkRoom);
   const cameraRef = React.useRef();
   const setTransitioning = useRoomStore(state => state.setTransitioning)
+  const { isMobile } = useMediaQuery();
 
 
 
@@ -26,19 +28,34 @@ const Experience = () => {
         -0.5405246972464048,
         -0.41767464462470266
       ),
-      zoom: 128
+  
     }
     ,
     light: {
-      position: new THREE.Vector3(12.54812934171853, 12.548956552455771, 13.2042565605176),
-      rotation: new THREE.Vector3(-0.6789880022961486,
+      position: new THREE.Vector3(14.5, 11.548956552455771, 13.2042565605176),
+      rotation: new THREE.Vector3(-0.9789880022961486,
         -0.597662349188293,
         -0.4262599453447497),
-      zoom: 183.29251597471116
+    
     }
 
   }
 
+  const zoomValues = {
+    defualtValue: isMobile ? 75 : 125,
+    animating: isMobile ? 75 : 110,
+  }
+
+
+
+  useEffect(() => {
+
+    if (!cameraRef.current) return;
+
+    cameraRef.current.zoom = zoomValues.defualtValue;
+    cameraRef.current.updateProjectionMatrix();
+
+  }, [isMobile])
 
 
   const disableTransition = () => {
@@ -48,13 +65,13 @@ const Experience = () => {
   useEffect(() => {
     if (!cameraRef.current) return;
     const gtl = gsap.timeline({
-      onComplete:() => {
-         disableTransition();
+      onComplete: () => {
+        disableTransition();
       }
     });
 
     gtl.to(cameraRef.current, {
-      zoom: 110,
+      zoom: zoomValues.animating,
       onUpdate: () => cameraRef.current.updateProjectionMatrix(),
       duration: .3,
       ease: 'power1'
@@ -69,14 +86,14 @@ const Experience = () => {
         duration: .5
       },
       ).to(cameraRef.current, {
-        zoom: 128,
+        zoom: zoomValues.defualtValue,
         onUpdate: () => cameraRef.current.updateProjectionMatrix(),
         duration: .3,
         ease: 'power1'
       })
 
 
-   
+
 
 
   }, [isDarkRoom])
@@ -112,7 +129,7 @@ const Experience = () => {
             -0.5405246972464048,
             -0.41767464462470266
           ]}
-          zoom={128} />
+          zoom={zoomValues.defualtValue} />
 
         {/* <OrbitControls /> */}
         <Scene pointerRef={pointerRef} camera={cameraRef} />

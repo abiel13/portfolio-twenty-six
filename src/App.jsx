@@ -1,8 +1,21 @@
-import Experience from "./Experience/Experience"; 
+import { useEffect } from "react";
+import Experience from "./Experience/Experience";
 import RoomToggleButton from "./features/navbuttons/RoomToggleButton";
 import SidePanel from "./features/sidepanel/sidepanel";
+import { useMediaQuery } from "./stores/useMediaQuery";
 
 export default function App() {
+
+  const { updateDimensions } = useMediaQuery();
+
+  useEffect(() => {
+
+    window.addEventListener('resize', updateDimensions)
+    return () => {
+      window.addEventListener('resize', updateDimensions)
+    }
+  }, [])
+
   return (
     <div className="relative w-full h-screen overflow-hidden">
       {/* 3D Canvas */}
