@@ -1,4 +1,4 @@
-import React, { Suspense, useRef } from 'react'
+import React, { Suspense, useEffect, useRef } from 'react'
 import DarkFirst from './models/dark/Dark_First'
 import DarkSecond from './models/dark/Dark_Second'
 import DarkThird from './models/dark/Dark_Third'
@@ -12,12 +12,36 @@ import LightTarget from './models/light/Light_Targets'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import GridPlanes from './components/GridPlanes'
+import { useRoomStore } from '../stores/toggleRoomStore'
+import gsap from 'gsap';
+
 
 
 
 const Scene = ({ camera, pointerRef }) => {
-  const groupRef = useRef()
+  const darkGroupRef = useRef();
+  const lightGroupRef = useRef();
+  const gridPlaneRef = useRef();
   const groupRotationRef = useRef(0)
+  const lightRoomPos = new THREE.Vector3(24.79, -0.201, 0.173)
+  const darkRoomGroupPos = new THREE.Vector3(0, 0, 0)
+  const lightRoomGroupPos = new THREE.Vector3(24.79, 0, 0.173)
+
+  const {isDarkRoom, isTransitioning} = useRoomStore() 
+
+
+  useEffect(() => {
+    if(!gridPlaneRef.current ) return;
+
+    const targetPosition = isDarkRoom ? darkRoomGroupPos : lightRoomGroupPos;
+
+    gsap.to(gridPlaneRef.current.position , {
+      x:targetPosition.x,
+      y:targetPosition.y
+    });
+
+  },[isDarkRoom])
+  
 
   useFrame(() => {
     // console.log(camera.current.position)
@@ -25,7 +49,7 @@ const Scene = ({ camera, pointerRef }) => {
     // console.log(camera.current.zoom)
 
 
-    if (!groupRef.current) return
+    if (!darkGroupRef.current || !lightGroupRef.current || !gridPlaneRef.current) return
     const targetRotation = pointerRef.current.x * Math.PI * 0.2
 
 
@@ -35,29 +59,31 @@ const Scene = ({ camera, pointerRef }) => {
       0.05
     )
 
-    groupRef.current.rotation.y = groupRotationRef.current
+    darkGroupRef.current.rotation.y = groupRotationRef.current
+    lightGroupRef.current.rotation.y = groupRotationRef.current
+    gridPlaneRef.current.rotation.y = groupRotationRef.current
+
+
   })
 
   return (
     <Suspense>
-      <group ref={groupRef}>
+      <group ref={darkGroupRef}>
         <DarkFirst />
         <DarkSecond />
         <DarkThird />
         <DarkFourth />
         <DarkTargets />
       </group>
-
-      <group>
-        <GridPlanes planeDepth={2} planeWidth={2} rows={20} cols={20} spacing={0.01} />
+      <group ref={lightGroupRef} position={lightRoomPos}>
+        <LightFirst position={[-lightRoomPos.x, -lightRoomPos.y, -lightRoomPos.z]} />
+        <LightSecond position={[-lightRoomPos.x, -lightRoomPos.y, -lightRoomPos.z]} />
+        <LightThird position={[-lightRoomPos.x, -lightRoomPos.y, -lightRoomPos.z]} />
+        <LightFourth position={[-lightRoomPos.x, -lightRoomPos.y, -lightRoomPos.z]} />
+        <LightTarget position={[-lightRoomPos.x, -lightRoomPos.y, -lightRoomPos.z]} />
       </group>
-
-      <group >
-        <LightFirst />
-        <LightSecond />
-        <LightThird />
-        <LightFourth />
-        <LightTarget />
+      <group>
+        <GridPlanes ref={gridPlaneRef} planeDepth={2} planeWidth={2} rows={10} cols={10} spacing={0.01} />
       </group>
     </Suspense>
   )

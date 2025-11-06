@@ -1,27 +1,48 @@
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { useFrame } from '@react-three/fiber'
+import { useRoomStore } from '../../stores/toggleRoomStore'
+import gsap from 'gsap'
+
 
 const Plane = ({ width, depth, position }) => {
     const planeref = useRef()
     const [hovered, setHovered] = useState(false)
+    const isDarkRoom = useRoomStore((state) => state.isDarkRoom);
 
-    const color = useMemo(() => {
-        const colorHexArray = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff, 0x00ffff]
-        return colorHexArray[Math.floor(Math.random() * colorHexArray.length)]
-    }, [])
+    useEffect(() => {
+        if (!planeref.current) return;
+
+        const material = planeref.current.material;
+        const targetColor = !isDarkRoom ? "#000000" : "#ffffff";
+        const targetColorHex = new THREE.Color(targetColor);
+
+  
+        gsap.to(material.color, {
+            r: targetColorHex.r,
+            g: targetColorHex.g,
+            b: targetColorHex.b,
+        });
+        gsap.to(material.emissive, {
+            r: targetColorHex.r,
+            g: targetColorHex.g,
+            b: targetColorHex.b,
+        });
+
+
+    }, [isDarkRoom])
 
     const material = useMemo(
         () =>
             new THREE.MeshStandardMaterial({
-                color,
+                color: "#ffffff",
                 transparent: true,
                 opacity: 0,
                 emissive: new THREE.Color(0xffffff),
                 emissiveIntensity: 0.8,
                 side: THREE.DoubleSide,
             }),
-        [color]
+        []
     )
 
     useFrame((_, delta) => {
@@ -44,7 +65,7 @@ const Plane = ({ width, depth, position }) => {
     )
 }
 
-const GridPlanes = ({ planeWidth, planeDepth, rows, cols, spacing }) => {
+const GridPlanes = ({ planeWidth, planeDepth, rows, cols, spacing, ref }) => {
     const gridWidth = cols * (planeWidth + spacing) - spacing
     const gridDepth = rows * (planeDepth + spacing) - spacing
     const startX = planeWidth / 2 - gridWidth / 2
@@ -64,7 +85,7 @@ const GridPlanes = ({ planeWidth, planeDepth, rows, cols, spacing }) => {
         return arr
     }, [rows, cols, planeWidth, planeDepth, spacing, startX, startZ])
 
-    return <group>{planes}</group>
+    return <group ref={ref}>{planes}</group>
 }
 
 export default GridPlanes

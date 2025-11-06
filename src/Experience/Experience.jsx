@@ -30,7 +30,7 @@ const Experience = () => {
     }
     ,
     light: {
-      position: new THREE.Vector3(14.794812934171853, 13.348956552455771, 16.2042565605176),
+      position: new THREE.Vector3(12.54812934171853, 12.548956552455771, 13.2042565605176),
       rotation: new THREE.Vector3(-0.6789880022961486,
         -0.597662349188293,
         -0.4262599453447497),
@@ -47,7 +47,11 @@ const Experience = () => {
 
   useEffect(() => {
     if (!cameraRef.current) return;
-    const gtl = gsap.timeline();
+    const gtl = gsap.timeline({
+      onComplete:() => {
+         disableTransition();
+      }
+    });
 
     gtl.to(cameraRef.current, {
       zoom: 110,
@@ -72,7 +76,7 @@ const Experience = () => {
       })
 
 
-    disableTransition();
+   
 
 
   }, [isDarkRoom])
