@@ -4,15 +4,16 @@ Command: npx gltfjsx@6.5.3 Light_Fourth.glb
 */
 
 import React from 'react'
-import { useGLTF } from '@react-three/drei'
+import { useGLTFWithKTX2 } from '../../utils/useGtlfWithkxt2'
 
 export default function Model(props) {
-  const { nodes, materials } = useGLTF('/Light_Fourth.glb')
+  const { nodes, materials } = useGLTFWithKTX2('/models/Light Room/Light_Fourth.glb')
+
+    const newMaterials = convertMaterialsToBasic(materials, 0.1);
   return (
     <group {...props} dispose={null}>
-      <mesh geometry={nodes.Light_Fourth_Baked.geometry} material={materials.REAL_fourth_Baked} position={[26.632, -0.17, -1.134]} rotation={[Math.PI, 0, Math.PI]} />
+      <mesh geometry={nodes.Light_Fourth_Baked.geometry} material={newMaterials.REAL_fourth_Baked} position={[26.632, -0.17, -1.134]} rotation={[Math.PI, 0, Math.PI]} />
     </group>
   )
 }
 
-useGLTF.preload('/Light_Fourth.glb')

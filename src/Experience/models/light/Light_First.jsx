@@ -4,17 +4,18 @@ Command: npx gltfjsx@6.5.3 Light_First.glb
 */
 
 import React from 'react'
-import { useGLTF } from '@react-three/drei'
+import { useGLTFWithKTX2 } from '../../utils/useGtlfWithkxt2'
 
 export default function Model(props) {
-  const { nodes, materials } = useGLTF('/Light_First.glb')
+  const { nodes, materials } = useGLTFWithKTX2('/models/Light Room/Light_First.glb')
+
+    const newMaterials = convertMaterialsToBasic(materials, 0.1);
   return (
     <group {...props} dispose={null}>
-      <mesh geometry={nodes.iPhone_Screen.geometry} material={materials['Computer scrreen']} position={[23.994, 0.734, -1.338]} rotation={[0, -1.193, Math.PI / 2]} />
-      <mesh geometry={nodes.Desktop_Screen.geometry} material={materials['Computer scrreen']} position={[24.377, 0.968, -1.548]} rotation={[-Math.PI / 2, 0, 0]} />
-      <mesh geometry={nodes.Light_First_Baked.geometry} material={materials.REAL_first_Baked} position={[23.66, 1.452, -1.692]} rotation={[-Math.PI / 2, 0, 0]} />
+      <mesh geometry={nodes.iPhone_Screen.geometry} material={newMaterials['Computer scrreen']} position={[23.994, 0.734, -1.338]} rotation={[0, -1.193, Math.PI / 2]} />
+      <mesh geometry={nodes.Desktop_Screen.geometry} material={newMaterials['Computer scrreen']} position={[24.377, 0.968, -1.548]} rotation={[-Math.PI / 2, 0, 0]} />
+      <mesh geometry={nodes.Light_First_Baked.geometry} material={newMaterials.REAL_first_Baked} position={[23.66, 1.452, -1.692]} rotation={[-Math.PI / 2, 0, 0]} />
     </group>
   )
 }
 
-useGLTF.preload('/Light_First.glb')

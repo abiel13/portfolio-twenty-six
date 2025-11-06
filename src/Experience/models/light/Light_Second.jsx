@@ -4,15 +4,17 @@ Command: npx gltfjsx@6.5.3 Light_Second.glb
 */
 
 import React from 'react'
-import { useGLTF } from '@react-three/drei'
+import { useGLTFWithKTX2 } from '../../utils/useGtlfWithkxt2'
 
 export default function Model(props) {
-  const { nodes, materials } = useGLTF('/Light_Second.glb')
+  const { nodes, materials } = useGLTFWithKTX2('/models/Light Room/Light_Second.glb')
+
+    const newMaterials = convertMaterialsToBasic(materials, 0.1);
   return (
     <group {...props} dispose={null}>
-      <mesh geometry={nodes.Light_Second_Baked.geometry} material={materials.actual_second_bro_Baked} position={[26.719, 1.498, 1.614]} rotation={[0, 0, -Math.PI / 2]} />
+      <mesh geometry={nodes.Light_Second_Baked.geometry} material={newMaterials.actual_second_bro_Baked} position={[26.719, 1.498, 1.614]} rotation={[0, 0, -Math.PI / 2]} />
     </group>
   )
 }
 
-useGLTF.preload('/Light_Second.glb')
+

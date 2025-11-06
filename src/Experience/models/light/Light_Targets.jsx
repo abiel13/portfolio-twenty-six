@@ -4,10 +4,12 @@ Command: npx gltfjsx@6.5.3 Light_Targets.glb
 */
 
 import React from 'react'
-import { useGLTF } from '@react-three/drei'
+import { useGLTFWithKTX2 } from '../../utils/useGtlfWithkxt2'
 
 export default function Model(props) {
-  const { nodes, materials } = useGLTF('/Light_Targets.glb')
+  const { nodes, materials } = useGLTFWithKTX2('/models/Light Room/Light_Targets.glb');
+
+
   return (
     <group {...props} dispose={null}>
       <mesh geometry={nodes.Design_Work_Hitbox.geometry} material={nodes.Design_Work_Hitbox.material} position={[24.434, 0.649, -1.105]} />
@@ -16,4 +18,3 @@ export default function Model(props) {
   )
 }
 
-useGLTF.preload('/Light_Targets.glb')

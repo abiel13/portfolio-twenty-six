@@ -35,7 +35,7 @@ const Experience = () => {
  -0.6752273112197668,  -0.6754330729282368,  -0.4641972171080932,
           ]}
           zoom={120} />
-      {/* <OrbitControls enableZoom={true} enablePan={true} enableRotate={false} /> */}
+      <OrbitControls enableZoom={true} enablePan={true} enableRotate={false} />
         <Scene pointerRef={pointerRef} camera={cameraRef} />
       </Canvas>  </>
   )

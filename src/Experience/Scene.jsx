@@ -4,9 +4,16 @@ import DarkSecond from './models/dark/Dark_Second'
 import DarkThird from './models/dark/Dark_Third'
 import DarkFourth from './models/dark/Dark_Fourth'
 import DarkTargets from './models/dark/Dark_Targets'
+import LightFirst from './models/light/Light_First'
+import LightSecond from './models/light/Light_Second'
+import LightThird from './models/light/Light_Third'
+import LightFourth from './models/light/Light_Fourth'
+import LightTarget from './models/light/Light_Targets'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import GridPlanes from './components/GridPlanes'
+
+
 
 const Scene = ({ camera, pointerRef }) => {
   const groupRef = useRef()
@@ -14,10 +21,10 @@ const Scene = ({ camera, pointerRef }) => {
 
   useFrame(() => {
 
-   if (!groupRef.current) return
+    if (!groupRef.current) return
     const targetRotation = pointerRef.current.x * Math.PI * 0.2
 
-    
+
     groupRotationRef.current = THREE.MathUtils.lerp(
       groupRotationRef.current,
       targetRotation,
@@ -30,15 +37,23 @@ const Scene = ({ camera, pointerRef }) => {
   return (
     <Suspense>
       <group ref={groupRef}>
-      <DarkFirst position={[0, 0, 0]} />
-      <DarkSecond position={[0, 0, 0]} />
-      <DarkThird position={[0, 0, 0]} />
-      <DarkFourth position={[0, 0, 0]} />
-      <DarkTargets />
+        <DarkFirst />
+        <DarkSecond />
+        <DarkThird />
+        <DarkFourth />
+        <DarkTargets />
       </group>
 
       <group>
-        <GridPlanes planeDepth={5} planeWidth={5} rows={10} cols={10} spacing={0.01}/>
+        <GridPlanes planeDepth={5} planeWidth={5} rows={10} cols={10} spacing={0.01} />
+      </group>
+
+      <group >
+        <LightFirst />
+        <LightSecond />
+        <LightThird />
+        <LightFourth />
+        <LightTarget />
       </group>
     </Suspense>
   )
