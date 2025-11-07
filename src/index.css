@@ -3,9 +3,9 @@
 *{
 
   box-sizing: border-box; 
-  touch-action: none;
 }
 
 body{
+  touch-action: none;
   background-color: black;
 }

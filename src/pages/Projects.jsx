@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import PageWithPanel from './PageWithPanel'
 import { useSidepanelStore } from "../stores/sidepanel.store";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 // Default project data — change these later
 const DEFAULT_PROJECTS = [
     {
@@ -122,12 +122,10 @@ export default function ProjectsPage({ projects = DEFAULT_PROJECTS }) {
     const [query, setQuery] = useState("");
     const [selected, setSelected] = useState(null);
     const modalRef = useRef(null);
-    const { close, open } = useSidepanelStore();
+    const {  open } = useSidepanelStore();
+ 
 
-    const onclick = () => {
-        navigate('/')
-
-    }
+ 
 
     useEffect(() => {
         open();
@@ -151,7 +149,7 @@ export default function ProjectsPage({ projects = DEFAULT_PROJECTS }) {
         <PageWithPanel>
 
 
-            <div className="min-h-screen p-2 md:p-4 bg-[#060218] text-white overflow-y-auto">
+            <div className="min-h-screen  p-2 md:p-4 bg-[#060218] text-white overflow-y-auto">
                 <NavLink className={'text-white underline font-bold border-blue-700 flex justify-end'} to={'/'}>
                 <p>Close</p>
                 </NavLink>

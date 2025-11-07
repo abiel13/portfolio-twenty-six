@@ -50,7 +50,7 @@ const Scene = ({ camera, pointerRef }) => {
 
 
     if (!darkGroupRef.current || !lightGroupRef.current || !gridPlaneRef.current) return
-    const targetRotation = pointerRef.current.x * Math.PI * 0.2
+    const targetRotation = pointerRef.current.x * Math.PI * 0.12
 
 
     groupRotationRef.current = THREE.MathUtils.lerp(

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import PageWithPanel from "./PageWithPanel";
 import { useSidepanelStore } from "../stores/sidepanel.store";
-import { useNavigate } from "react-router";
+import { NavLink,  } from "react-router";
 
 
 const jobTitles = [
@@ -32,7 +32,7 @@ const skills = [
 
 const About = () => {
   const { open } = useSidepanelStore();
-  const navigate = useNavigate();
+
 
   useEffect(() => {
     open();
@@ -40,14 +40,14 @@ const About = () => {
 
   ])
 
-  const onclick = () => {
-    navigate('/')
-  }
 
   return (
     <PageWithPanel>
-   
-      <div className="overflow-auto bg-[#060218]">
+
+      <div className="overflow-auto p-2 bg-[#060218]">
+        <NavLink className={'text-white underline font-bold border-blue-700 flex justify-end'} to={'/'}>
+          <p>Close</p>
+        </NavLink>
         <section className="flex flex-col h-fit! items-center justify-center py-12 text-center">
           <h1 className="text-4xl h-fit! font-bold mb-2 text-white">About Me</h1>
           <p className="max-w-2xl text-white  leading-relaxed">
