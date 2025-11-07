@@ -4,6 +4,7 @@ Command: npx gltfjsx@6.5.3 Dark_Targets.glb
 */
 
 import React from "react";
+import { useNavigate } from "react-router";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import gsap from "gsap";
@@ -16,6 +17,7 @@ export default function Model(props) {
   const open = useSidepanelStore((state) => state.open);
   const aboutAnimRef = React.useRef();
   const devWorkAnimRef = React.useRef();
+  const navigate = useNavigate();
 
   const animationPairs = [
     { meshRef: aboutAnimRef, key: 'about' },
@@ -37,8 +39,8 @@ export default function Model(props) {
     }
   }
 
-  const handleClick = () => {
-    console.log('hit this function ')
+  const handleClick = (path) => {
+    navigate(path)
     open();
   }
   
@@ -52,7 +54,7 @@ export default function Model(props) {
         onPointerOver={handleMouse('about', true)}
         onPointerOut={handleMouse('about', false)}
         position={[0.679, 1.571, -1.368]}
-        onClick={() => handleClick()}
+        onClick={() => handleClick('/about')}
         
         />
       <mesh
@@ -67,7 +69,7 @@ export default function Model(props) {
         material={nodes.Dev_Work_Hitbox.material}
         visible={false}
         position={[-0.457, 0.597, 1.021]}
-        onClick={()=> handleClick()}
+        onClick={()=> handleClick('/projects')}
         onPointerOver={handleMouse('dev_work', true)}
         onPointerOut={handleMouse('dev_work', false)}
       />

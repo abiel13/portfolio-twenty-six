@@ -1,18 +1,20 @@
 import React, { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { useSidepanelStore } from "../../stores/sidepanel.store";
+import { useLocation, useNavigate } from "react-router";
 
-const SidePanel = () => {
+const SidePanel = ({ children }) => {
   const panelRef = useRef(null);
-  const { visible } = useSidepanelStore();
-console.log(visible);
+  const { visible, close } = useSidepanelStore();
+  const navigate = useNavigate()
+  console.log(visible);
   useEffect(() => {
     const el = panelRef.current;
     if (!el) return;
     const isMobile = window.innerWidth < 768;
 
     gsap.from(el, {
-        opacity:0
+      opacity: 0
     })
 
 
@@ -20,7 +22,7 @@ console.log(visible);
       gsap.to(el, {
         x: 0,
         y: 0,
-        opacity:1,
+        opacity: 1,
         duration: 0.5,
         ease: "power3.out",
       });
@@ -45,23 +47,16 @@ console.log(visible);
     });
   }, []);
 
+
   return (
     <div
       ref={panelRef}
       className="
-        pointer-events-auto
-        bg-white text-gray-900 shadow-lg overflow-y-auto
-        md:w-[30vw]! md:h-screen
-        w-full h-[50%]
+      absolute z-150 top-0 right-0 bottom-0  flex flex-col justify-end items-end  bg-transparent text-gray-900 shadow-lg  md:w-[30vw]! md:h-screen! w-full h-screen!
       "
     >
-      <div className="p-6">
-        <h2 className="text-xl font-semibold mb-3">Panel Content</h2>
-        <p className="text-gray-600">
-          Panel slides from right on desktop, bottom on mobile.
-        </p>
-        
-      </div>
+     
+      {children}
     </div>
   );
 };

@@ -6,6 +6,7 @@ import * as THREE from 'three'
 import gsap from 'gsap'
 import { useRoomStore } from '../stores/toggleRoomStore'
 import { useMediaQuery } from '../stores/useMediaQuery'
+import { useLoadingStore } from '../stores/loading.store'
 
 
 const Experience = () => {
@@ -15,7 +16,7 @@ const Experience = () => {
   const cameraRef = React.useRef();
   const setTransitioning = useRoomStore(state => state.setTransitioning)
   const { isMobile } = useMediaQuery();
-
+  const {isReady} = useLoadingStore();
 
 
   const camerapositions = {
@@ -92,10 +93,6 @@ const Experience = () => {
         ease: 'power1'
       })
 
-
-
-
-
   }, [isDarkRoom])
 
 
@@ -104,9 +101,24 @@ const Experience = () => {
       pointerRef.current.x = (event.clientX / window.innerWidth) * 2 - 1;
       pointerRef.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
     };
+
+
+        const onTouchMove = (event) => {
+      if(event.touches.length === 1){
+           pointerRef.current.x = (event.touches[0].clientX / window.innerWidth) * 2 - 1;
+      pointerRef.current.y = -(event.touches[0].clientY / window.innerHeight) * 2 + 1;
+      }
+    };
+
+
     window.addEventListener('pointermove', onPointerMove);
+    window.addEventListener('touchmove', onTouchMove);
+
+
     return () => {
       window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('touchmove',onTouchMove)
+   
     };
 
 
