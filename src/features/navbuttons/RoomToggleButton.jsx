@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink, useLocation } from 'react-router'
+import { NavLink, useLocation, useNavigate } from 'react-router'
 import { useRoomStore } from '../../stores/toggleRoomStore'
 import { useSidepanelStore } from '../../stores/sidepanel.store'
 import { useLoadingStore } from '../../stores/loading.store'
@@ -13,10 +13,12 @@ const RoomToggleButton = () => {
   const close = useSidepanelStore(state => state.close)
   const { isReady } = useLoadingStore()
   const location = useLocation()
+const navigate = useNavigate()
 
   const toggleButton = () => {
     if (isTransitioning) return
     setTransitioning(true)
+    navigate('/')
     close()
     setDarkRoom(!isDarkRoom)
   }
